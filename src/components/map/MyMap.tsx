@@ -110,7 +110,7 @@ const MyMap = () => {
         if (station.name) {
             const temp = [...addedStation];
             const st = {...station};
-            st.id = String(new Date());
+            st.id = String(Math.random());
             temp.push(st);
             setAddedStations(temp);
             setCost(cost + st.cost)
@@ -133,7 +133,7 @@ const MyMap = () => {
 
     const removeStation = (item: IStation) => {
         const temp = addedStation.filter(obj => {
-            if (item.name === obj.name) {
+            if (item.id === obj.id) {
                 setCost(cost - obj.cost);
             } else return obj;
         });
@@ -209,6 +209,7 @@ const MyMap = () => {
         setAddedStations(temp);
     }
 
+    console.log(addedStation);
     return (
         <>
             <Menu setWithNew={setWithNew} cost={cost} stations={defaultStations} setDefault={defaultPreset} addStation={addStation}
