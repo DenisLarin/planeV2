@@ -4,6 +4,11 @@ import Menu from "../menu/Menu";
 import {IStation} from "../../model/Station";
 import Station from "../station/Station";
 
+
+//alpha 56.23868891512036, 55.33530806249858
+//grizly 56.26292907405072, 55.269390093749706
+//grizly 55.54724281635937, 63.48716353124965
+
 const MyMap = () => {
     const [defaultStations, setDefaultStations] = useState([
         {
@@ -111,6 +116,10 @@ const MyMap = () => {
         temp.map(tempItem => {
             if (item.id === tempItem.id) {
                 tempItem.position = center;
+                console.group("Координты");
+                console.log(item);
+                console.log(center);
+                console.groupEnd();
             }
         });
         setAddedStations(temp);
@@ -118,18 +127,47 @@ const MyMap = () => {
 
 
     const removeStation = (item: IStation) => {
-        const temp = addedStation.filter(obj=>{
-            if (item.name === obj.name){
+        const temp = addedStation.filter(obj => {
+            if (item.name === obj.name) {
                 setCost(cost - obj.cost);
-            }
-            else return obj;
+            } else return obj;
         });
+        setAddedStations(temp);
+    };
+
+    const defaultPreset = () => {
+        //alpha 56.23868891512036, 55.33530806249858
+        //grizly 56.26292907405072, 55.269390093749706
+        //grizly 55.54724281635937, 63.48716353124965
+
+        const alpha = defaultStations[0];
+        const romeo = defaultStations[1];
+        const home = defaultStations[2];
+        const grizzly = defaultStations[3];
+        const temp: IStation[] = [];
+
+
+        //edit
+        temp.push({...alpha});
+        temp[0].position = [56.23868891512036, 55.33530806249858];
+        temp[0].id = String("1");
+
+        temp.push({...grizzly});
+        temp[1].position = [56.26292907405072, 55.269390093749706];
+        temp[1].id = String("2");
+
+        temp.push({...grizzly});
+        temp[2].position = [55.54724281635937, 63.48716353124965];
+        temp[2].id = String("3");
+
+
         setAddedStations(temp);
     };
 
     return (
         <>
-            <Menu cost={cost} stations={defaultStations} addStation={addStation} addedStations={addedStation}/>
+            <Menu cost={cost} stations={defaultStations} setDefault={defaultPreset} addStation={addStation}
+                  addedStations={addedStation}/>
             <YMaps>
                 <Map defaultState={{center: [mapCenterX, mapCenterY], zoom: 6}} height="100vh" width="100vw">
                     {addedStation.map(item => {

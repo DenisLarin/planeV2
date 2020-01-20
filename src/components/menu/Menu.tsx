@@ -8,6 +8,7 @@ interface IProps {
     addStation: (station: IStation)=>void;
     addedStations: IStation[];
     cost: number;
+    setDefault: ()=>void;
 }
 
 
@@ -24,6 +25,7 @@ const Menu = (props: IProps) => {
                     return <button disabled={isDisabled.length > 0} onClick={()=>props.addStation(item)} className={css.menu__button} key={item.name}>{item.name}</button>
                 })}
             </div>
+            <button onClick={props.setDefault} className={css.menu__button}>Пресет 1</button>
             <h3>Цена: {props.cost}</h3>
         </div>
     );
