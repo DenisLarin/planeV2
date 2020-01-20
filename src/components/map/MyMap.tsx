@@ -1,5 +1,5 @@
 import React, {useState} from 'react';
-import {YMaps, Map, Placemark, GeoObject} from "react-yandex-maps";
+import {YMaps, Map, Placemark, GeoObject, RulerControl} from "react-yandex-maps";
 import Menu from "../menu/Menu";
 import {IStation} from "../../model/Station";
 import Station from "../station/Station";
@@ -10,32 +10,32 @@ const MyMap = () => {
             name: "alpha",
             range: 400,
             blindSpot: 150,
-            coast: 100
+            cost: 100
         },
         {
             name: "romeo",
             range: 400,
             blindSpot: 200,
-            coast: 80
+            cost: 80
         },
         {
             name: "home",
             range: 200,
             blindSpot: 100,
-            coast: 50
+            cost: 50
         },
         {
             name: "grizzly",
             range: 150,
             blindSpot: 0,
-            coast: 40
+            cost: 40
         }
         ,
         {
             name: "new",
             range: 400,
             blindSpot: 150,
-            coast: 0
+            cost: 0
         },
     ]);
     const [defaultTowns, setDefaultTowns] = useState<Array<Array<number>>>([
@@ -45,6 +45,7 @@ const MyMap = () => {
         [55.441004, 65.341118]
     ]);
     const [addedStation, setAddedStations] = useState<IStation[]>([]);
+    const [cost, setCost] = useState<number>(0);
 
 
     let maxX = -90;
@@ -92,23 +93,50 @@ const MyMap = () => {
     }
 
     const addStation = (station: IStation) => {
+        if (station.name === 'new') {
+            const cost = prompt("cost of new station");
+            station.cost = Number(cost);
+        }
         if (station.name) {
-            console.log(station);
             const temp = [...addedStation];
             temp.push(station);
             setAddedStations(temp);
+            setCost(cost + station.cost)
         }
+    };
+    const setNewPosition = (item: IStation, center: [number, number]) => {
+        const temp = [...addedStation];
+        temp.map(tempItem => {
+            if (item.name === tempItem.name) {
+                tempItem.position = center;
+            }
+        });
+        setAddedStations(temp);
     };
 
 
+    const removeStation = (item: IStation) => {
+        const temp = addedStation.filter(obj=>{
+            if (item.name === obj.name){
+                setCost(cost - obj.cost);
+            }
+            else return obj;
+        });
+        setAddedStations(temp);
+    };
+
     return (
         <>
-            <Menu stations={defaultStations} addStation={addStation} addedStations={addedStation}/>
+            <Menu cost={cost} stations={defaultStations} addStation={addStation} addedStations={addedStation}/>
             <YMaps>
                 <Map defaultState={{center: [mapCenterX, mapCenterY], zoom: 6}} height="100vh" width="100vw">
                     {addedStation.map(item => {
-                        console.log(item);
-                        return <Station name={item.name} range={item.range} blindSpot={item.blindSpot} coast={item.coast} position={[mapCenterX, mapCenterY]}/>
+                        return <Station key={item.name}
+                                        getDragPosition={(center: [number, number]) => setNewPosition(item, center)}
+                                        name={item.name} range={item.range}
+                                        blindSpot={item.blindSpot} cost={item.cost}
+                                        position={item.position?.length! > 0 ? [item.position![0], item.position![1]] : [mapCenterX, mapCenterY]}
+                                        removeStation={() => removeStation(item)}/>
                     })};
                     {defaultTowns.map(item => {
                         return <Placemark key={Math.random().toString()} geometry={item}/>

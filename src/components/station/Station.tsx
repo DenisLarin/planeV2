@@ -6,8 +6,10 @@ interface IProps {
     name: string,
     range: number,
     blindSpot: number,
-    coast: number,
+    cost: number,
     position: [number, number];
+    getDragPosition: (center: [number,number])=>void;
+    removeStation: ()=>void;
 }
 
 
@@ -24,6 +26,7 @@ const Station = (props: IProps) => {
         // var rlng = rlat / Math.cos(center[0] * d2r) /3;
         var rlng = (radius / earthRadius) * r2d * 0.99;
 
+
         var extp = new Array();
         var start = 0;
         var end = points + 1
@@ -38,10 +41,11 @@ const Station = (props: IProps) => {
     };
 
 
-    const dragend = (event: any) =>{
-        console.log("dragend")
-        console.log(event.originalEvent.target);
-    }
+    const dragend = (event: any) => {
+        const pixelBounds = event.originalEvent.target.geometry.getBounds();
+        const center = [pixelBounds[0][0] + (pixelBounds[1][0] - pixelBounds[0][0]) / 2, (pixelBounds[1][1] - pixelBounds[0][1]) / 2 + pixelBounds[0][1]];
+        props.getDragPosition([center[0], center[1]]);
+    };
 
     return (
         <>
@@ -59,17 +63,8 @@ const Station = (props: IProps) => {
                     draggable: true,
                     cursor: 'move',
                 }}
-                onDragend={(event:any)=>dragend(event)}
-            />
-            <Circle
-                geometry={[[55.76, 37.6], props.range * 1000]}
-                options={{
-                    draggable: true,
-                    fillColor: '#DB709377',
-                    strokeColor: '#990066',
-                    strokeOpacity: 0.8,
-                    strokeWidth: 5,
-                }}
+                onDragend={(event: any) => dragend(event)}
+                onClick={props.removeStation}
             />
         </>
     );
