@@ -99,15 +99,17 @@ const MyMap = () => {
         }
         if (station.name) {
             const temp = [...addedStation];
-            temp.push(station);
+            const st = {...station};
+            st.id = String(new Date());
+            temp.push(st);
             setAddedStations(temp);
-            setCost(cost + station.cost)
+            setCost(cost + st.cost)
         }
     };
     const setNewPosition = (item: IStation, center: [number, number]) => {
         const temp = [...addedStation];
         temp.map(tempItem => {
-            if (item.name === tempItem.name) {
+            if (item.id === tempItem.id) {
                 tempItem.position = center;
             }
         });
@@ -131,7 +133,7 @@ const MyMap = () => {
             <YMaps>
                 <Map defaultState={{center: [mapCenterX, mapCenterY], zoom: 6}} height="100vh" width="100vw">
                     {addedStation.map(item => {
-                        return <Station key={item.name}
+                        return <Station key={item.id}
                                         getDragPosition={(center: [number, number]) => setNewPosition(item, center)}
                                         name={item.name} range={item.range}
                                         blindSpot={item.blindSpot} cost={item.cost}

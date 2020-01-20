@@ -3,5 +3,6 @@ export interface IStation {
     range: number,
     blindSpot: number,
     cost: number,
-    position?: [number, number]
+    position?: [number, number];
+    id?: string
 }

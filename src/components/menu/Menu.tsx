@@ -18,6 +18,9 @@ const Menu = (props: IProps) => {
             <div className={css.menu__button_container}>
                 {props.stations.map(item=>{
                     const isDisabled = props.addedStations.filter(obj => item.name === obj.name);
+
+                    isDisabled.length = 0;
+
                     return <button disabled={isDisabled.length > 0} onClick={()=>props.addStation(item)} className={css.menu__button} key={item.name}>{item.name}</button>
                 })}
             </div>
