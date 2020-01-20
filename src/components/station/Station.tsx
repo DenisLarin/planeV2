@@ -10,6 +10,7 @@ interface IProps {
     position: [number, number];
     getDragPosition: (center: [number,number])=>void;
     removeStation: ()=>void;
+    color: string
 }
 
 
@@ -55,7 +56,7 @@ const Station = (props: IProps) => {
                     arrayOfPoints(props.position, props.blindSpot * 1000),
                 ]}
                 options={{
-                    fillColor: '#00FF00',
+                    fillColor: `${props.color}`,
                     strokeColor: '#0000FF',
                     opacity: 0.5,
                     strokeWidth: 5,

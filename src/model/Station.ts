@@ -4,5 +4,6 @@ export interface IStation {
     blindSpot: number,
     cost: number,
     position?: [number, number];
-    id?: string
+    id?: string,
+    color: string
 }

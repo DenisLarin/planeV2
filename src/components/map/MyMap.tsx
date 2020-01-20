@@ -15,32 +15,37 @@ const MyMap = () => {
             name: "alpha",
             range: 400,
             blindSpot: 150,
-            cost: 100
+            cost: 100,
+            color: "#00FF00"
         },
         {
             name: "romeo",
             range: 400,
             blindSpot: 200,
-            cost: 80
+            cost: 80,
+            color: "#ff2d3c"
         },
         {
             name: "home",
             range: 200,
             blindSpot: 100,
-            cost: 50
+            cost: 50,
+            color: "#094bff"
         },
         {
             name: "grizzly",
             range: 150,
             blindSpot: 0,
-            cost: 40
+            cost: 40,
+            color: "#ff00d8"
         }
         ,
         {
             name: "new",
             range: 400,
             blindSpot: 150,
-            cost: 0
+            cost: 0,
+            color: "#0e0e0e"
         },
     ]);
     const [defaultTowns, setDefaultTowns] = useState<Array<Array<number>>>([
@@ -172,6 +177,7 @@ const MyMap = () => {
                 <Map defaultState={{center: [mapCenterX, mapCenterY], zoom: 6}} height="100vh" width="100vw">
                     {addedStation.map(item => {
                         return <Station key={item.id}
+                                        color={item.color}
                                         getDragPosition={(center: [number, number]) => setNewPosition(item, center)}
                                         name={item.name} range={item.range}
                                         blindSpot={item.blindSpot} cost={item.cost}
