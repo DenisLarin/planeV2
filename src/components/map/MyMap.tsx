@@ -150,10 +150,45 @@ const MyMap = () => {
         const home = defaultStations[2];
         const grizzly = defaultStations[3];
         const temp: IStation[] = [];
-
+        let cost = 0;
 
         //edit
         temp.push({...alpha});
+        temp[0].position = [56.23868891512036, 55.33530806249858];
+        temp[0].id = String("1");
+
+
+        temp.push({...grizzly});
+        temp[1].position = [56.26292907405072, 55.269390093749706];
+        temp[1].id = String("2");
+
+        temp.push({...grizzly});
+        temp[2].position = [55.54724281635937, 63.48716353124965];
+        temp[2].id = String("3");
+
+
+        temp.forEach(item=>{
+            cost+=item.cost;
+        })
+
+        setAddedStations(temp);
+        setCost(cost);
+    };
+
+    const setWithNew = () => {
+        const alpha = defaultStations[0];
+        const romeo = defaultStations[1];
+        const home = defaultStations[2];
+        const grizzly = defaultStations[3];
+        const newS = defaultStations[4];
+        let cost = 0;
+
+
+        const temp: IStation[] = [];
+
+
+        //edit
+        temp.push({...newS});
         temp[0].position = [56.23868891512036, 55.33530806249858];
         temp[0].id = String("1");
 
@@ -165,13 +200,18 @@ const MyMap = () => {
         temp[2].position = [55.54724281635937, 63.48716353124965];
         temp[2].id = String("3");
 
+        temp.forEach(item=>{
+            cost+=item.cost;
+        });
+        setCost(cost);
+
 
         setAddedStations(temp);
-    };
+    }
 
     return (
         <>
-            <Menu cost={cost} stations={defaultStations} setDefault={defaultPreset} addStation={addStation}
+            <Menu setWithNew={setWithNew} cost={cost} stations={defaultStations} setDefault={defaultPreset} addStation={addStation}
                   addedStations={addedStation}/>
             <YMaps>
                 <Map defaultState={{center: [mapCenterX, mapCenterY], zoom: 6}} height="100vh" width="100vw">
