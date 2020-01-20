@@ -36,6 +36,13 @@ const Station = (props: IProps) => {
         }
         return extp;
     };
+
+
+    const dragend = (event: any) =>{
+        console.log("dragend")
+        console.log(event.originalEvent.target);
+    }
+
     return (
         <>
             <Polygon
@@ -50,6 +57,18 @@ const Station = (props: IProps) => {
                     strokeWidth: 5,
                     strokeStyle: 'shortdash',
                     draggable: true,
+                    cursor: 'move',
+                }}
+                onDragend={(event:any)=>dragend(event)}
+            />
+            <Circle
+                geometry={[[55.76, 37.6], props.range * 1000]}
+                options={{
+                    draggable: true,
+                    fillColor: '#DB709377',
+                    strokeColor: '#990066',
+                    strokeOpacity: 0.8,
+                    strokeWidth: 5,
                 }}
             />
         </>

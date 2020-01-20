@@ -1,9 +1,11 @@
 import React, {useState} from 'react';
 import {YMaps, Map, Placemark, GeoObject} from "react-yandex-maps";
+import Menu from "../menu/Menu";
+import {IStation} from "../../model/Station";
 import Station from "../station/Station";
 
 const MyMap = () => {
-    const defaultStations = useState([
+    const [defaultStations, setDefaultStations] = useState([
         {
             name: "alpha",
             range: 400,
@@ -42,6 +44,7 @@ const MyMap = () => {
         [58.010450, 56.229434],
         [55.441004, 65.341118]
     ]);
+    const [addedStation, setAddedStations] = useState<IStation[]>([]);
 
 
     let maxX = -90;
@@ -69,7 +72,7 @@ const MyMap = () => {
     const townLine = [];
 
     for (let i = 0; i < defaultTowns.length; i++) {
-        for (let j = i; j< defaultTowns.length; j++){
+        for (let j = i; j < defaultTowns.length; j++) {
             townLine.push(<GeoObject
                 geometry={{
                     type: 'LineString',
@@ -86,17 +89,27 @@ const MyMap = () => {
                 }}
             />)
         }
+    }
+
+    const addStation = (station: IStation) => {
+        if (station.name) {
+            console.log(station);
+            const temp = [...addedStation];
+            temp.push(station);
+            setAddedStations(temp);
+        }
     };
 
 
     return (
         <>
-            <div>
-
-            </div>
+            <Menu stations={defaultStations} addStation={addStation} addedStations={addedStation}/>
             <YMaps>
                 <Map defaultState={{center: [mapCenterX, mapCenterY], zoom: 6}} height="100vh" width="100vw">
-                    <Station name="alpha" range={400} blindSpot={150} coast={100} position={[mapCenterX, mapCenterY]}/>
+                    {addedStation.map(item => {
+                        console.log(item);
+                        return <Station name={item.name} range={item.range} blindSpot={item.blindSpot} coast={item.coast} position={[mapCenterX, mapCenterY]}/>
+                    })};
                     {defaultTowns.map(item => {
                         return <Placemark key={Math.random().toString()} geometry={item}/>
                     })}
