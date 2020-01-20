@@ -42,8 +42,8 @@ const MyMap = () => {
         ,
         {
             name: "new",
-            range: 400,
-            blindSpot: 150,
+            range: 300,
+            blindSpot: 100,
             cost: 0,
             color: "#0e0e0e"
         },
