@@ -167,8 +167,8 @@ const MyMap = () => {
         temp[2].id = String("3");
 
 
-        temp.forEach(item=>{
-            cost+=item.cost;
+        temp.forEach(item => {
+            cost += item.cost;
         })
 
         setAddedStations(temp);
@@ -176,6 +176,11 @@ const MyMap = () => {
     };
 
     const setWithNew = () => {
+        //new 56.29964581730236, 57.04917524999637
+        // new 56.11614731590582, 53.79722212499742
+        // grizly 55.80790393985693, 63.24546431249926
+
+
         const alpha = defaultStations[0];
         const romeo = defaultStations[1];
         const home = defaultStations[2];
@@ -189,30 +194,33 @@ const MyMap = () => {
 
         //edit
         temp.push({...newS});
-        temp[0].position = [56.23868891512036, 55.33530806249858];
+        temp[0].position = [56.299645817213715, 56.977764117183725];
         temp[0].id = String("1");
 
-        temp.push({...grizzly});
-        temp[1].position = [56.26292907405072, 55.269390093749706];
+        temp.push({...newS});
+        temp[1].position = [56.11614731590582, 53.79722212499742];
         temp[1].id = String("2");
 
         temp.push({...grizzly});
-        temp[2].position = [55.54724281635937, 63.48716353124965];
+        temp[2].position = [55.80790393985693, 63.24546431249926];
         temp[2].id = String("3");
 
-        temp.forEach(item=>{
-            cost+=item.cost;
+        temp.forEach(item => {
+            cost += item.cost;
         });
         setCost(cost);
 
 
         setAddedStations(temp);
-    }
-
-    console.log(addedStation);
+    };
+    const reset = () => {
+        setAddedStations([]);
+        setCost(0);
+    };
     return (
         <>
-            <Menu setWithNew={setWithNew} cost={cost} stations={defaultStations} setDefault={defaultPreset} addStation={addStation}
+            <Menu reset={reset} setWithNew={setWithNew} cost={cost} stations={defaultStations}
+                  setDefault={defaultPreset} addStation={addStation}
                   addedStations={addedStation}/>
             <YMaps>
                 <Map defaultState={{center: [mapCenterX, mapCenterY], zoom: 6}} height="100vh" width="100vw">

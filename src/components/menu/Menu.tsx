@@ -10,6 +10,7 @@ interface IProps {
     cost: number;
     setDefault: () => void;
     setWithNew: () => void;
+    reset: ()=>void;
 }
 
 
@@ -30,6 +31,7 @@ const Menu = (props: IProps) => {
             <div className={css.menu__button_container}>
                 <button onClick={props.setDefault} className={css.menu__button}>Пресет 1</button>
                 <button onClick={props.setWithNew} className={css.menu__button}>Пресет 2</button>
+                <button onClick={props.reset} className={css.menu__button}>Reset</button>
             </div>
 
             <h3>Цена: {props.cost}</h3>
